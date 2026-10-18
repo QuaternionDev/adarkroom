@@ -13,9 +13,9 @@
  * ones you enabled to hide the rest, e.g. ['google', 'github'].
  */
 window.CloudConfig = {
-  apiKey: '',
-  authDomain: '',
-  projectId: '',
-  appId: '',
-  providers: []
+  apiKey: 'AIzaSyB1t_cMIXZA_OT2ZJ-8bMQaiO17zNiH9sk',
+  authDomain: 'adarkroom-clouds.firebaseapp.com',
+  projectId: 'adarkroom-clouds',
+  appId: '1:459856730360:web:a3fc64530560065aec030d',
+  providers: ['google']
 };
