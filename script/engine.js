@@ -184,6 +184,16 @@
         .click(Engine.exportImport)
         .appendTo(menu);
 
+      if(window.Cloud && Cloud.isConfigured()) {
+        Cloud.init();
+
+        $('<span>')
+          .addClass('menuBtn')
+          .text(_('cloud.'))
+          .click(Cloud.openMenu)
+          .appendTo(menu);
+      }
+
       if(this.options.dropbox && Engine.Dropbox) {
         this.dropbox = Engine.Dropbox.init();
 
@@ -279,6 +289,7 @@
           Engine._lastNotify = Date.now();
         }
         localStorage.gameState = JSON.stringify(State);
+        if(window.Cloud) Cloud.onLocalSave();
       }
     },
 
@@ -429,7 +440,17 @@
       if(typeof Storage != 'undefined' && localStorage) {
         var prestige = Prestige.get();
         window.State = {};
+        // sync info has to outlive a restart, or the cloud would look like a stranger's save
+        var cloudKeys = {};
+        if(window.Cloud) {
+          [Cloud.META_KEY, Cloud.DEVICE_KEY].forEach(function(key) {
+            if(localStorage[key] != null) cloudKeys[key] = localStorage[key];
+          });
+        }
         localStorage.clear();
+        for(var key in cloudKeys) {
+          localStorage[key] = cloudKeys[key];
+        }
         Prestige.set(prestige);
       }
       if(!noReload) {
